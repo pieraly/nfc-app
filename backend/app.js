@@ -13,7 +13,7 @@ app.use('/api', userRoutes);
 app.use(express.static('public'));
 
 // Connect to MongoDB Atlas
-mongoose.connect('mongodb+srv://stephanepieraly:123testUser@cluster0.ytab4ou.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {

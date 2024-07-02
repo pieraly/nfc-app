@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const secretKey = 'yourSecretKey';
+const secretKey = process.env.YOUR_SECRET_KEY;
 
 exports.createUser = async (req, res) => {
   try {
