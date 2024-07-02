@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
 
 exports.authenticateUser = async (req, res) => {
   try {
-    const { nfc_id } = req.body;
+    const { nfc_id, password } = req.body;
     const user = await User.findOne({ nfc_id });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -23,13 +23,16 @@ exports.authenticateUser = async (req, res) => {
     if (!user.isActive) {
       return res.status(403).json({ error: 'User is inactive' });
     }
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
     const token = jwt.sign({ userId: user._id, username: user.name }, secretKey, { expiresIn: '1h' });
     res.json({ message: 'User authenticated', token });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 
 exports.getAllUsers = async (req, res) => {
   try {
