@@ -5,6 +5,6 @@ const userController = require('../controllers/userController');
 router.post('/users', userController.createUser);
 router.post('/authenticate', userController.authenticateUser);
 router.get('/users', userController.getAllUsers);
-router.put('/user/status', userController.updateUserStatus);
+router.put('/userstatus', userController.updateUserStatus);
 
 module.exports = router;

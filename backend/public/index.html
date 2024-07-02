@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>User Management System</h1>
+
+    <div id="create-user-form">
+        <h2>Create User</h2>
+        <input type="text" id="create-nfc_id" placeholder="NFC ID">
+        <input type="text" id="create-name" placeholder="Name">
+        <input type="password" id="create-password" placeholder="Password">
+        <label>
+            <input type="checkbox" id="create-isActive" checked> Active
+        </label>
+        <button id="create-user-button">Create User</button>
+    </div>
+
+    <div id="authenticate-user-form">
+        <h2>Authenticate User</h2>
+        <input type="text" id="auth-nfc_id" placeholder="NFC ID">
+        <button id="auth-user-button">Authenticate User</button>
+    </div>
+
+    <div id="update-user-status-form">
+        <h2>Update User Status</h2>
+        <input type="text" id="update-id" placeholder="NFC ID">
+        <select id="update-status">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
+        <button id="update-status-button">Update Status</button>
+    </div>
+
+    <div id="user-list-section">
+        <h2>User List</h2>
+        <button id="get-users-button">Get All Users</button>
+        <div id="user-list"></div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
