@@ -1,5 +1,5 @@
-import User from './models/User.js';
-import jwt from 'jsonwebtoken';
+import User from "./models/User.js";
+import jwt from "jsonwebtoken";
 const secretKey = process.env.YOUR_SECRET_KEY;
 
 export const createUser = async (req, res) => {
