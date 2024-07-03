@@ -20,10 +20,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
 
             const result = await response.json();
-            alert(result.message);
+            showNotification(result.message, 'bg-green-500');
             loadUsers();
         } catch (error) {
             console.error('Error creating user:', error);
+            showNotification('Error creating user', 'bg-red-500');
         }
     }
 
@@ -41,12 +42,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             const result = await response.json();
             if (result.token) {
-                alert('User authenticated successfully');
+                showNotification('User authenticated successfully', 'bg-green-500');
             } else {
-                alert(result.error);
+                showNotification(result.error, 'bg-red-500');
             }
         } catch (error) {
             console.error('Error authenticating user:', error);
+            showNotification('Error authenticating user', 'bg-red-500');
         }
     }
 
@@ -55,7 +57,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const isActive = document.getElementById('update-status').value === 'true';
 
         try {
-            const response = await fetch('/api/userstatus', {
+            const response = await fetch('/api/user/status', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,10 +66,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
 
             const result = await response.json();
-            alert(result.message);
+            showNotification(result.message, 'bg-green-500');
             loadUsers();
         } catch (error) {
             console.error('Error updating user status:', error);
+            showNotification('Error updating user status', 'bg-red-500');
         }
     }
 
@@ -78,14 +81,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const userList = document.getElementById('user-list');
             userList.innerHTML = '';
             users.forEach(user => {
-                const userDiv = document.createElement('div');
-                userDiv.className = 'user';
-                userDiv.innerText = `${user.name} (NFC ID: ${user.nfc_id}) - Active: ${user.isActive}`;
-                userList.appendChild(userDiv);
+                const userCard = document.createElement('div');
+                userCard.className = 'user bg-white p-4 rounded-lg shadow-lg';
+                userCard.innerHTML = `
+                    <h3 class="text-xl font-bold">${user.name}</h3>
+                    <p>NFC ID: ${user.nfc_id}</p>
+                    <p>Active: ${user.isActive}</p>
+                `;
+                userList.appendChild(userCard);
             });
         } catch (error) {
             console.error('Error loading users:', error);
+            showNotification('Error loading users', 'bg-red-500');
         }
+    }
+
+    function showNotification(message, className) {
+        const notification = document.getElementById('notification');
+        notification.className = `block ${className} p-4 mb-4 rounded-lg`;
+        notification.innerText = message;
+        setTimeout(() => {
+            notification.className = 'hidden';
+        }, 3000);
     }
 
     loadUsers();
