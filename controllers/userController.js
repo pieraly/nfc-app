@@ -1,8 +1,8 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
 const secretKey = process.env.YOUR_SECRET_KEY;
 
-exports.createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
     const { nfc_id, name, password, isActive } = req.body;
     console.log('Request body:', req.body); // Debug message
@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.authenticateUser = async (req, res) => {
+export const authenticateUser = async (req, res) => {
   try {
     const { nfc_id } = req.body;
     console.log('Authenticate request body:', req.body); // Debug message
@@ -26,7 +26,7 @@ exports.authenticateUser = async (req, res) => {
     if (!user.isActive) {
       return res.status(403).json({ error: 'User is inactive' });
     }
-    const token = jwt.sign({ userId: user._id, username: user.name }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, username: user.name }, secretKey, { expiresIn: '1h' }); // apres une h = inactive
     res.json({ message: 'User authenticated', token });
   } catch (error) {
     console.error('Error authenticating user:', error); // Debug message
@@ -34,7 +34,7 @@ exports.authenticateUser = async (req, res) => {
   }
 };
 
-exports.getAllUsers = async (req, res) => {
+export  const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -43,7 +43,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.updateUserStatus = async (req, res) => {
+export  const updateUserStatus = async (req, res) => {
   try {
     const { nfc_id, isActive } = req.body;
     console.log('Update request body:', req.body); // Debug message
