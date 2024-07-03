@@ -11,9 +11,30 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  password: {
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  role: {
     type: String,
     required: true
+  },
+  ip_address: {
+    type: String,
+    required: true
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  expiration_date: {
+    type: Date,
+    required: true
+  },
+  last_login: {
+    type: Date,
+    default: Date.now
   },
   isActive: {
     type: Boolean,
@@ -22,18 +43,9 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash the password before saving the user
-userSchema.pre('save', async function (next) {
-  if (this.isModified('password') || this.isNew) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-  }
-  next();
-});
+
 
 // Method to compare password for authentication
-userSchema.methods.comparePassword = function (candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
 
 const User = mongoose.model('User', userSchema);
 
