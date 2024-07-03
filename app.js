@@ -1,12 +1,29 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import userRoutes from "./routes/userRoutes.js";
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import helmet from 'helmet';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
 const app = express();
+
+app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      styleSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "https://fonts.googleapis.com"],
+      objectSrc: ["'none'"],
+      frameSrc: ["'none'"],
+    },
+  })
+);
 
 app.use(bodyParser.json());
 app.use('/api', userRoutes);
